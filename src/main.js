@@ -19,11 +19,13 @@ form.addEventListener("submit", hundlerSubmit);
 
 const button = document.querySelector(".load-btn")
 button.addEventListener("click", hundlerClick)
-
+const gallery = document.querySelector(".gallery");
 
 let currentPage = 1
 let searchValue = ""
 let totalPage = 0
+
+
 async function hundlerSubmit(event) {
   event.preventDefault();
 
@@ -40,7 +42,7 @@ searchValue = query.value.trim();
 
     return;
   }
-
+hideLoadMoreButton();
   clearGallery();
   showLoader();
   currentPage = 1
@@ -107,7 +109,17 @@ if (images.length === 0) {
 
         return;
       }
+
+      const galleryHeight = gallery
+      .firstElementChild
+      .getBoundingClientRect().height;
       createGallery(images);
+
+ window.scrollBy({
+      top: galleryHeight * 2,
+      behavior: "smooth",
+    });
+
       if (totalPage > currentPage) {
 showLoadMoreButton()
       } else {
